@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<body style="margin: 0;">
+
+<script>
+function menu(JSX=document.body) {
+  var CSS, JS, HTML=''; 
+  
+  CSS = [
+    `
+      cursor: pointer;
+      margin-top: 1rem;
+      width: 30px;
+      background: yellow;
+      display: inline-block;
+    `,
+    `
+      height: 5px;
+      background: #000;
+      position: relative;
+      top: 0;
+      transition: all ease-in-out 0.4s;
+    `,
+    `
+      margin: 7px 0;
+    `
+  ];
+  
+  JS = [
+    `
+
+    `
+  ];
+  
+  HTML += `
+  <section style="${CSS[0]}">
+    <div style="${CSS[1]}"></div>
+    <div style="${CSS[1]} ${CSS[2]}"></div>
+    <div style="${CSS[1]}"></div>
+  </section>
+  `;
+  
+  return HTML; 
+} 
+
+function grid(JSX=document.body) {
+  var CSS, JS, HTML='', that; 
+  
+  CSS = [
+    `
+      height: 100vh;
+      display: grid;
+      grid: 
+      'nav nav' 12%
+      'aside main'
+      'aside main'/ min-content 1fr;
+    `,
+    `
+      grid-area: nav;
+      padding: 0.5rem;
+      background: lightblue;
+    `,
+    `
+      grid-area: aside;
+      background: #111;
+      color: #fff;
+      width: 0;
+      transition: 1s;
+    `,
+    `
+      grid-area: main;
+      padding: 0 1rem;
+      background: yellow;
+    `
+  ];
+  
+  JS = [
+    `
+      var nav, menu, aside;
+      nav = that.children[0]; 
+      menu = nav.children[0];
+      aside = that.children[1];
+      //alert(aside.outerHTML);
+      if(menu.children[0].style['transform']==
+      'rotate(-45deg)') {
+        menu.children[0].style.cssText += \`
+          transform: rotate(0deg);
+          top: 0;
+        \`;
+        menu.children[1].style.cssText += \`
+          opacity: 1;
+        \`;
+        menu.children[2].style.cssText += \`
+          transform: rotate(0deg);
+          top: 0;
+        \`;
+        aside.style.cssText += \`
+          padding: 0;
+          width: 0;
+        \`;
+      } else {
+        menu.children[0].style.cssText += \`
+          transform: rotate(-45deg);
+          top: .75em;
+        \`;
+        menu.children[1].style.cssText += \`
+          opacity: 0;
+        \`;
+        menu.children[2].style.cssText += \`
+          transform: rotate(45deg);
+          top: -.75em;
+        \`;
+        aside.style.cssText += \`
+          padding: 0 1rem;
+          width: auto;
+        \`;
+      }
+    `
+  ];
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    that = JSX.children[JSX.children.length-1];
+    //alert(that.outerHTML);
+    that.addEventListener('click', function() {
+      eval(JS[0]);
+    });
+  });
+  
+  HTML += `
+  <section style="${CSS[0]}">
+    <nav style="${CSS[1]}">
+      ${menu()}
+      <span>Nav</span>
+    </nav>
+
+    <aside style="${CSS[2]}">
+      <h1>aside</h1>
+    </aside>
+
+    <main style="${CSS[3]}">
+      <h1>main</h1>
+    </main>
+  </section>
+  `;
+  
+  JSX.innerHTML += HTML; 
+} grid();
+</script>
+
+</body>
+</html>
